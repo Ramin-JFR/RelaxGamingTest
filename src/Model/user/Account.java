@@ -65,12 +65,14 @@ public class Account {
     }
 
     public void applyTransaction(boolean win, float amount) throws Exception {
+        float amountInPounds = (float) (amount / 1.10);
+
         if (win) {
-            setAccountBalance(accountBalance + amount);
-            Db.insertTransaction(accountNumber, "win", amount);
+            setAccountBalance(accountBalance + amountInPounds);
+            Db.insertTransaction(accountNumber, "win", amountInPounds);
         } else {
-            setAccountBalance(accountBalance - amount);
-            Db.insertTransaction(accountNumber, "lost", amount);
+            setAccountBalance(accountBalance - amountInPounds);
+            Db.insertTransaction(accountNumber, "lost", amountInPounds);
         }
 
 

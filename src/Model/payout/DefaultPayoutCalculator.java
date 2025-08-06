@@ -10,7 +10,6 @@ import java.util.Map;
 
 public class DefaultPayoutCalculator implements PayoutCalculator {
     private static final Map<SymbolsWeight, Map<Integer, Integer>> PAYOUT_TABLE = new HashMap<>();
-    public static float winPayment = 10;
 
     static {
         addPayout(SymbolsWeight.H1, new int[]{5, 6, 7, 8, 10});
@@ -51,18 +50,9 @@ public class DefaultPayoutCalculator implements PayoutCalculator {
             double scaledPayout = (betAmount / 10.0) * basePayout;
             winPayout += (float) scaledPayout;
         }
-        if (winPayout > 0) {
-            return winPayout + 10;
-        }
         return winPayout;
     }
 
-
-//    @Override
-//    public float getWinPaymentAfterDoubleChance(boolean winner, float sessionWin, String accountNumber) throws SQLException {
-//        float win = winner ? (sessionWin * 2) : 0;
-//        return win;
-//    }
 
 
 }

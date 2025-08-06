@@ -1,15 +1,16 @@
 package Model;
 
 import Controller.Controller;
-import Model.db.Db;
 import Model.user.Account;
+import View.View;
 
-import java.sql.SQLException;
 import java.util.Scanner;
 
 public class GameSessionManager {
     private final Scanner scanner = new Scanner(System.in);
     private final Controller controller;
+    private View view = new View();
+
 
 
     public GameSessionManager(Controller controller) {
@@ -33,11 +34,28 @@ public class GameSessionManager {
             }
         }
         Account account = new Account("accountNumber");
-        account.applyTransaction(totalWin > 0, totalWin);
+        account.applyTransaction(totalWin >= 0, totalWin);
 
-        float rtp = (totalWin / totalBet) * 100;
-        System.out.println("===Summery of this run=====");
-        System.out.println("Total win: " + totalWin);
-        System.out.printf("Simulation completed: RTP = %.2f%%\n", rtp);
+        view.displaySummary(totalWin,totalBet);
+    }
+
+    public void runOneMatch(String accountNumber, float bet, int row, int column) throws Exception {
+        float totalWin = 0;
+        GameResult result = null;
+
+            Controller controller = new Controller(row, column);
+            result = controller.runGame(bet);
+
+            if (result.hasWin && Math.random() < 0.5) {
+                float doubled = Math.random() < 0.5 ? 0 : result.winPrice * 2;
+                totalWin += (doubled - result.winPrice);
+            }
+
+        Account account = new Account(accountNumber);
+        account.applyTransaction(totalWin >= 0, totalWin);
+
+        view.displaySummary(totalWin, 0);
+
+
     }
 }

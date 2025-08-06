@@ -10,12 +10,6 @@ public class Transaction {
         this.description = description;
         this.amountInEuros = amountInEuros;
     }
-    public Transaction(String description, float amountInEuros, String timestamp, String expiryDate) {
-        this.description = description;
-        this.amountInEuros = amountInEuros;
-        this.timestamp = timestamp;
-        this.expiryDate = expiryDate;
-    }
 
     public String getDescription() {
         return description;

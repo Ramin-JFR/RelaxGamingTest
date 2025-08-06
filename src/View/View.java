@@ -39,7 +39,12 @@ public class View {
         System.out.println("You won " + winnings + " till now (excluding your own money).");
         System.out.println("You have a chance to double your win payment in this game. If you win your prize will be double but if you lose you won't get any money.\nNow you have 2 options\n1 => play\nOR\n2 => not playing");
     }
-
+    public void displaySummary(float totalWin, float totalBet) {
+        float rtp = (totalWin / totalBet) * 100;
+        System.out.println("===Summery of this run=====");
+        System.out.println("Total win: " + totalWin);
+        System.out.printf("Simulation completed: RTP = %.2f%%\n", rtp);
+    }
 
     public void displayOverallWinAfterDoubleUp(float balance) {
         System.out.println("\nIn summary you have " + balance + " in your account.\n");
@@ -49,4 +54,6 @@ public class View {
     public void gameFinished(float overallPayment) {
         System.out.println("Game is done and you won: "+overallPayment);
     }
+
+
 }

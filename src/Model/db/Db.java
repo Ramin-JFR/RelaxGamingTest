@@ -103,6 +103,7 @@ public class Db {
                 balance = rs.getFloat("account_balance");
             }
         }
+
         return balance;
     }
 
