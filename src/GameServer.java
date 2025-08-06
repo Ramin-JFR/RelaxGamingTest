@@ -1,13 +1,16 @@
 import Controller.Controller;
 import Model.GameSessionManager;
+import Model.db.Db;
 import Model.dto.GameRoundResponse;
 import Model.grid.Position;
 
+import java.sql.SQLException;
 import java.util.List;
 import java.util.Scanner;
 
 public class GameServer {
-    public static void main(String[] args) {
+    public static void main(String[] args) throws SQLException {
+        Db.run();
         int row = 8, column = 8;
         Scanner scanner = new Scanner(System.in);
         Controller controller = new Controller(row, column);

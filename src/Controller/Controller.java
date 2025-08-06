@@ -8,6 +8,7 @@ import Model.payout.PayoutCalculator;
 import Model.user.Account;
 import View.View;
 
+import java.sql.SQLException;
 import java.util.List;
 
 public class Controller {
@@ -31,9 +32,10 @@ public class Controller {
         this.payout = new DefaultPayoutCalculator();
     }
 
-    public GameResult runGame(float betAmount) {
+    public GameResult runGame(float betAmount) throws SQLException {
         float totalWin = 0;
         float winPayment;
+
 
 
         do {
@@ -47,16 +49,20 @@ public class Controller {
 
             winPayment = payout.calculatePayoutForMatch(clusters, betAmount);
 
-            GridModel replaceGridModel = new GridModel(row, column);
-
-
-            view.displayGrid(gridModel.setGrid(replaceGridModel.getGrid()));
 
             view.displayPayoutForLastMatch(winPayment);
+            System.out.println("======");
 
             totalWin += winPayment;
+            gridModel.setGrid(afterFallDown);
 
         } while (winPayment > 0);
+
+        GridModel replaceGridModel = new GridModel(row, column);
+
+
+        gridModel.setGrid(replaceGridModel.getGrid());
+
 
         return new GameResult(totalWin);
     }

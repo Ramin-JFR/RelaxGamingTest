@@ -4,6 +4,7 @@ import Controller.Controller;
 import Model.db.Db;
 import Model.user.Account;
 
+import java.sql.SQLException;
 import java.util.Scanner;
 
 public class GameSessionManager {
@@ -16,7 +17,7 @@ public class GameSessionManager {
     }
 
 
-    public void runSimulation(int rounds, float betPerRound, int row, int column) {
+    public void runSimulation(int rounds, float betPerRound, int row, int column) throws Exception {
         float totalBet = 0, totalWin = 0;
 
         for (int i = 0; i < rounds; i++) {
@@ -30,6 +31,10 @@ public class GameSessionManager {
                 totalWin += (doubled - result.winPrice);
             }
         }
+        Account account = new Account("accountNumber");
+        account.setAccountBalance(totalWin);
+        float temp = account.getAccountBalance();
+        account.setAccountBalance(totalWin+temp);
 
         float rtp = (totalWin / totalBet) * 100;
         System.out.printf("Simulation completed: RTP = %.2f%%\n", rtp);

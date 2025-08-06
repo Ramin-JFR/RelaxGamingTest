@@ -29,7 +29,7 @@ public class Account {
 
 
 
-    private void setAccountBalance(float balance) throws SQLException {
+    public void setAccountBalance(float balance) throws SQLException {
         this.accountBalance = balance;
         Db.updateAccountBalance(accountNumber, balance);
     }

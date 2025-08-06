@@ -58,11 +58,11 @@ public class DefaultPayoutCalculator implements PayoutCalculator {
     }
 
 
-    @Override
-    public float getWinPaymentAfterDoubleChance(boolean winner, float sessionWin, String accountNumber) throws SQLException {
-        float win = winner ? (sessionWin * 2) : 0;
-        return win;
-    }
+//    @Override
+//    public float getWinPaymentAfterDoubleChance(boolean winner, float sessionWin, String accountNumber) throws SQLException {
+//        float win = winner ? (sessionWin * 2) : 0;
+//        return win;
+//    }
 
 
 }
