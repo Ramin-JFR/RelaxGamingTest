@@ -11,7 +11,7 @@ public class DbRow {
     private double amount;
     private Timestamp transactionDate;
 
-    public static DbRow fromResultSet(ResultSet rs) throws  SQLException {
+    public static DbRow fromResultSet(ResultSet rs) throws SQLException {
         DbRow row = new DbRow();
         row.id = rs.getInt("id");
         row.accountNumber = rs.getString("account_number");
@@ -19,6 +19,30 @@ public class DbRow {
         row.amount = rs.getDouble("amount");
         row.transactionDate = rs.getTimestamp("transaction_date");
         return row;
+    }
+
+    public void setAmount(double amount) {
+        this.amount = amount;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public String getAccountNumber() {
+        return accountNumber;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public double getAmount() {
+        return amount;
+    }
+
+    public Timestamp getTransactionDate() {
+        return transactionDate;
     }
 
     public String getValueForField(String field) {

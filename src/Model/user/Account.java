@@ -25,13 +25,16 @@ public class Account {
     }
 
     public float getAccountBalance() {
-        return accountBalance;
+        return (float) (accountBalance * 1.10);
     }
 
 
     public void setAccountBalance(float balance) throws SQLException {
         this.accountBalance = balance;
-        Db.updateAccountBalance(accountNumber, balance);
+
+        float amountInPounds = (float) (balance / 1.10);
+
+        Db.updateAccountBalance(accountNumber, amountInPounds);
     }
 
     public List<Transaction> getTransactions() throws Exception {
@@ -72,10 +75,8 @@ public class Account {
             Db.insertTransaction(accountNumber, "win", amountInPounds);
         } else {
             setAccountBalance(accountBalance - amountInPounds);
-            Db.insertTransaction(accountNumber, "lost", amountInPounds);
+            Db.insertTransaction(accountNumber, "lost", -amountInPounds);
         }
-
-
     }
 
     private String fixDescription(String desc) {

@@ -1,11 +1,14 @@
 package Controller;
 
 import Model.GameResult;
+import Model.db.Db;
+import Model.db.DbRow;
 import Model.dto.GameRoundResponse;
 import Model.grid.*;
 import Model.payout.DefaultPayoutCalculator;
 import Model.payout.PayoutCalculator;
 import Model.user.Account;
+import Model.user.Transaction;
 import View.View;
 
 import java.sql.SQLException;
@@ -37,7 +40,6 @@ public class Controller {
         float winPayment;
 
 
-
         do {
             view.displayGrid(gridModel.getGrid());
 
@@ -63,6 +65,21 @@ public class Controller {
 
 
         return new GameResult(totalWin);
+    }
+
+    public void getListOfTransactions(String accountNumber) {
+        try {
+            Account account = new Account(accountNumber);
+            List<Transaction> transactions = account.getTransactions();
+
+            System.out.println("===== Transactions for Account: " + accountNumber + " =====");
+            for (Transaction t : transactions) {
+                System.out.println("Type: " + t.getDescription() + ", Amount: " + t.getAmountInEuros() +
+                        ", Timestamp: " + t.getTimestamp() + ", Expiry: " + t.getExpiryDate());
+            }
+        } catch (Exception e) {
+            System.out.println("Error retrieving transactions: " + e.getMessage());
+        }
     }
 
 

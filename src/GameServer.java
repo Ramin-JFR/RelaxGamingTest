@@ -1,12 +1,9 @@
 import Controller.Controller;
 import Model.GameSessionManager;
 import Model.db.Db;
-import Model.dto.GameRoundResponse;
-import Model.grid.Position;
 import Model.user.Account;
 
 import java.sql.SQLException;
-import java.util.List;
 import java.util.Scanner;
 
 public class GameServer {
@@ -18,9 +15,10 @@ public class GameServer {
         GameSessionManager sessionManager = new GameSessionManager(controller);
 
         try {
-            System.out.println("You have 2 options:" +
-                    "1=> Play a match" +
-                    "2=> Run simulation");
+            System.out.println("You have 3 options:" +
+                    "1=> Play a match\n" +
+                    "2=> Run simulation\n" +
+                    "3=> Retrieve transactions");
             int option = scanner.nextInt();
 
             switch (option) {
@@ -46,48 +44,94 @@ public class GameServer {
     private static void runSimulation(GameSessionManager sessionManager, Scanner scanner, int row, int column) throws Exception {
         System.out.print("Enter number of simulations to run: ");
         int simulations = scanner.nextInt();
+        scanner.nextLine();
 
         System.out.print("Enter bet amount per simulation: ");
         float betPerRound = scanner.nextFloat();
+        scanner.nextLine();
 
-//        checkAccountBalance("accountNumber",scanner);
+        float totalBet = betPerRound * simulations;
 
+        System.out.print("Enter your account number: ");
+        String accountNumber = scanner.nextLine();
+
+        Account account = new Account(accountNumber);
+        float balance = account.getAccountBalance();
+
+        if (balance < totalBet) {
+            System.out.println("You don't have enough balance to place this bet.\n" +
+                    "Do you want to add money? If yes, enter the amount to deposit. If not, type 'no':");
+
+            String reply = scanner.nextLine();
+
+            if (reply.equalsIgnoreCase("no")) {
+                System.exit(0);
+            }
+
+            float depositAmount;
+            try {
+                depositAmount = Float.parseFloat(reply);
+            } catch (NumberFormatException e) {
+                System.out.println("Invalid input. Exiting.");
+                return;
+            }
+
+            account.setAccountBalance(depositAmount + balance);
+            balance = account.getAccountBalance();
+        }
+
+
+        if (balance < totalBet) {
+            System.out.println("Still not enough balance. Exiting.");
+            return;
+        }
+
+        System.out.println("You have enough money. Starting simulation...");
         sessionManager.runSimulation(simulations, betPerRound, row, column);
     }
 
     private static void oneMatch(GameSessionManager sessionManager, Scanner scanner, int row, int column) throws Exception {
         System.out.print("Enter bet amount: ");
         float bet = scanner.nextFloat();
-        System.out.println("Enter your account number: ");
         scanner.nextLine();
+
+        System.out.println("Enter your account number: ");
         String accountNumber = scanner.nextLine();
 
-//        checkAccountBalance(accountNumber, scanner);
+        Account account = new Account(accountNumber);
+        float balance = account.getAccountBalance();
 
-        sessionManager.runOneMatch(accountNumber, bet, row, column);
+        if (balance >= bet) {
+            System.out.println("You have enough money.");
+            sessionManager.runOneMatch(accountNumber, bet, row, column);
+        } else {
+            System.out.println("You don't have enough balance to place this bet.\n" +
+                    "Do you want to add money?\n" +
+                    "If yes, please enter the amount to deposit. If not, type 'no':");
+
+            String reply = scanner.nextLine();
+            if (reply.equalsIgnoreCase("no")) {
+                System.exit(0);
+            }
+
+            float depositAmount;
+            try {
+                depositAmount = Float.parseFloat(reply);
+            } catch (NumberFormatException e) {
+                System.out.println("Invalid input. Exiting.");
+                return;
+            }
+
+            account.setAccountBalance(depositAmount + balance);
+            sessionManager.runOneMatch(accountNumber, bet, row, column);
+        }
     }
 
-//    private static void checkAccountBalance(String accountNumber, Scanner scanner) throws SQLException {
-//        Account account = new Account(accountNumber);
-//        float balance = account.getAccountBalance(); // You’ll need to implement this method if not done yet
-//
-//        if (balance >= betAmount) {
-//
-//        } else {
-//            System.out.println("You don't have enough balance to place this bet.\n" +
-//                    "do you wanna add money? ");
-//
-//
-//
-//        }
-//    }
-
-
-
-
-    private static void listOfTransaction(Controller controller, Scanner scanner) {
+    private static void listOfTransaction(Controller controller, Scanner scanner) throws Exception {
         System.out.println("Please enter your account number");
+        scanner.nextLine();
         String accountNumber = scanner.nextLine();
+        controller.getListOfTransactions(accountNumber);
 
 
     }
