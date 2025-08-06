@@ -83,29 +83,6 @@ public class Controller {
     }
 
 
-//    public GameRoundResponse playOneRound(float betAmount) {
-//        SymbolsWeight[][] initialGrid = gridModel.getGrid();
-//
-//        List<Cluster> clusters = clusterDetector.findClusters(initialGrid);
-//
-//        List<List<Position>> clusterPositions = clusters.stream()
-//                .map(Cluster::positions)
-//                .toList();
-//
-//        SymbolsWeight[][] afterRemoval = avalanche.removeClusters(initialGrid, clusters);
-//        SymbolsWeight[][] afterCollapse = avalanche.collapseGrid(afterRemoval);
-//        SymbolsWeight[][] afterFallDown = avalanche.newSymbolsFallDown(afterCollapse);
-//
-//        float winAmount = payout.calculatePayoutForMatch(clusters, betAmount);
-//
-//        return new GameRoundResponse(
-//                initialGrid,
-//                clusterPositions,
-//                afterRemoval,
-//                afterCollapse,
-//                afterFallDown,
-//                winAmount
-//        );
-//    }
+
 
 }
