@@ -15,10 +15,11 @@ public class GameServer {
         GameSessionManager sessionManager = new GameSessionManager(controller);
 
         try {
-            System.out.println("You have 3 options:" +
-                    "1=> Play a match\n" +
-                    "2=> Run simulation\n" +
-                    "3=> Retrieve transactions");
+            System.out.println("""
+                    You have 3 options:
+                    1=> Play a match
+                    2=> Run simulation
+                    3=> Retrieve transactions""");
             int option = scanner.nextInt();
 
             switch (option) {
@@ -71,6 +72,7 @@ public class GameServer {
             float depositAmount;
             try {
                 depositAmount = Float.parseFloat(reply);
+                account.addDepositToAccount(accountNumber, depositAmount);
             } catch (NumberFormatException e) {
                 System.out.println("Invalid input. Exiting.");
                 return;
@@ -87,7 +89,7 @@ public class GameServer {
         }
 
         System.out.println("You have enough money. Starting simulation...");
-        sessionManager.runSimulation(simulations, betPerRound, row, column);
+        sessionManager.runSimulation(accountNumber, simulations, betPerRound, row, column);
     }
 
     private static void oneMatch(GameSessionManager sessionManager, Scanner scanner, int row, int column) throws Exception {
@@ -117,6 +119,8 @@ public class GameServer {
             float depositAmount;
             try {
                 depositAmount = Float.parseFloat(reply);
+                account.addDepositToAccount(accountNumber, depositAmount);
+
             } catch (NumberFormatException e) {
                 System.out.println("Invalid input. Exiting.");
                 return;

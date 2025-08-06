@@ -18,7 +18,7 @@ public class GameSessionManager {
     }
 
 
-    public void runSimulation(int rounds, float betPerRound, int row, int column) throws Exception {
+    public void runSimulation(String accountNumber, int rounds, float betPerRound, int row, int column) throws Exception {
         float totalBet = 0, totalWin = 0;
         GameResult result = null;
 
@@ -33,7 +33,7 @@ public class GameSessionManager {
                 totalWin += (doubled - result.winPrice);
             }
         }
-        Account account = new Account("accountNumber");
+        Account account = new Account(accountNumber);
         account.applyTransaction(totalWin >= 0, totalWin);
 
         view.displaySummary(totalWin,totalBet);

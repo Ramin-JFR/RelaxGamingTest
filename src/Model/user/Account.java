@@ -87,4 +87,9 @@ public class Account {
         return Objects.equals(o.getAccountNumber(), getAccountNumber());
     }
 
+    public void addDepositToAccount(String accountNumber, float depositAmount) throws SQLException {
+        float amountInPounds = (float) (depositAmount / 1.10);
+        Db.insertTransaction(accountNumber, "deposit", amountInPounds);
+
+    }
 }
