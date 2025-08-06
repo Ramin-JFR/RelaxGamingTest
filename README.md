@@ -16,7 +16,7 @@ This project is a Java-based game server that simulates a grid-based cascading s
 
 ### 1. Clone the Repository
 ```bash
-git clone https://github.com/your-username/RelaxGamingTest.git
+git clone https://github.com/Ramin-JFR/RelaxGamingTest.git
 cd RelaxGamingTest
 ```
 
