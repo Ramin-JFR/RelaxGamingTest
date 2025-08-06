@@ -23,10 +23,10 @@ public class Account {
     public String getAccountNumber() {
         return accountNumber;
     }
+
     public float getAccountBalance() {
         return accountBalance;
     }
-
 
 
     public void setAccountBalance(float balance) throws SQLException {
@@ -64,13 +64,16 @@ public class Account {
         return result;
     }
 
-    public void applyTransaction(String type, float amount) throws Exception {
-        if (type.equals("deposit") || type.equals("win")) {
+    public void applyTransaction(boolean win, float amount) throws Exception {
+        if (win) {
             setAccountBalance(accountBalance + amount);
-        } else if (type.equals("withdraw") || type.equals("lost")) {
+            Db.insertTransaction(accountNumber, "win", amount);
+        } else {
             setAccountBalance(accountBalance - amount);
+            Db.insertTransaction(accountNumber, "lost", amount);
         }
-        Db.insertTransaction(accountNumber, type, amount);
+
+
     }
 
     private String fixDescription(String desc) {

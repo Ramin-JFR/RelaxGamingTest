@@ -51,7 +51,7 @@ public class Controller {
 
 
             view.displayPayoutForLastMatch(winPayment);
-            System.out.println("======");
+            System.out.println("=============");
 
             totalWin += winPayment;
             gridModel.setGrid(afterFallDown);
@@ -59,8 +59,6 @@ public class Controller {
         } while (winPayment > 0);
 
         GridModel replaceGridModel = new GridModel(row, column);
-
-
         gridModel.setGrid(replaceGridModel.getGrid());
 
 

@@ -19,11 +19,12 @@ public class GameSessionManager {
 
     public void runSimulation(int rounds, float betPerRound, int row, int column) throws Exception {
         float totalBet = 0, totalWin = 0;
+        GameResult result = null;
 
         for (int i = 0; i < rounds; i++) {
             totalBet += betPerRound;
             Controller controller = new Controller(row, column);
-            GameResult result = controller.runGame(betPerRound);
+            result = controller.runGame(betPerRound);
             totalWin += result.finalWin;
 
             if (result.hasWin && Math.random() < 0.5) {
@@ -32,11 +33,11 @@ public class GameSessionManager {
             }
         }
         Account account = new Account("accountNumber");
-        account.setAccountBalance(totalWin);
-        float temp = account.getAccountBalance();
-        account.setAccountBalance(totalWin+temp);
+        account.applyTransaction(totalWin > 0, totalWin);
 
         float rtp = (totalWin / totalBet) * 100;
+        System.out.println("===Summery of this run=====");
+        System.out.println("Total win: " + totalWin);
         System.out.printf("Simulation completed: RTP = %.2f%%\n", rtp);
     }
 }
